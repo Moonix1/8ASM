@@ -1,0 +1,8 @@
+**.ninja
+**.ninja_deps
+**.ninja_log
+
+**.bin
+
+.vscode/
+bin/
