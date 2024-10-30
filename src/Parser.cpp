@@ -104,6 +104,17 @@ void Parser::ParseExpr() {
 				.value = std::make_tuple(dest.type, dest.value),
 			});
 		} break;
+		case CALLF: {
+            Token dest = FetchToken(pos);
+
+			m_Exprs.push_back(JumpExpr {
+				.type = CALLF,
+				.dest = std::make_tuple(dest.type, dest.value),
+			});
+		} break;
+		case RETF: {
+            m_Exprs.push_back(Return {});
+		} break;
 		case JUMP: {
             Token dest = FetchToken(pos);
 

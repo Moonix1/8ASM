@@ -55,6 +55,8 @@ struct JumpExpr {
 	std::tuple<TokenType, std::string> dest;
 };
 
+struct Return {};
+
 struct Halt {};
 
 class Parser {

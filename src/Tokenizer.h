@@ -33,6 +33,8 @@ enum TokenType {
 	SHR,
 	INC,
 	DEC,
+	CALLF,
+	RETF,
 	JUMP,
 	JUMP_ZERO,
 	JUMP_NOT_ZERO,

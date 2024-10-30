@@ -103,6 +103,12 @@ void Tokenizer::TokenizeAlnum(int &pos, std::string line) {
 	} else if (value == "dec" || value == "DEC") {
         m_Tokens.push_back(Token { .type = DEC, .value = value });
         return;
+	} else if (value == "call" || value == "CALL") {
+		m_Tokens.push_back(Token { .type = CALLF, .value = value });
+        return;
+	} else if (value == "ret" || value == "RET") {
+		m_Tokens.push_back(Token { .type = RETF, .value = value });
+        return;
 	} else if (value == "jmp" || value == "JMP") {
 		m_Tokens.push_back(Token { .type = JUMP, .value = value });
         return;

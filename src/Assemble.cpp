@@ -246,6 +246,9 @@ void Assemble::AssembleExprs(std::string outPath) {
 		} else if (expr.type() == typeid(JumpExpr)) {
 			JumpExpr jumpExpr = std::any_cast<JumpExpr>(expr);
 			switch (jumpExpr.type) {
+			case CALLF: {
+				program.push_back(CALL);
+			} break;
 			case JUMP: {
 				program.push_back(JMP);
 			} break;
@@ -277,6 +280,8 @@ void Assemble::AssembleExprs(std::string outPath) {
 			// Fill up the empty spots
 			program.push_back(0);
 			program.push_back(0);
+		} else if (expr.type() == typeid(Return)) {
+			program.push_back(RET);
 		} else if (expr.type() == typeid(Halt)) {
 			program.push_back(HLT);
         } else {
