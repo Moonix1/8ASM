@@ -90,6 +90,20 @@ void Parser::ParseExpr() {
 				.value = std::make_tuple(value.type, value.value),
 			});
 		} break;
+		case INC: {
+			Token dest = FetchToken(pos);
+			m_Exprs.push_back(SingleExpr {
+				.type = tok.type,
+				.value = std::make_tuple(dest.type, dest.value),
+			});
+		} break;
+		case DEC: {
+			Token dest = FetchToken(pos);
+			m_Exprs.push_back(SingleExpr {
+				.type = tok.type,
+				.value = std::make_tuple(dest.type, dest.value),
+			});
+		} break;
 		case JUMP: {
             Token dest = FetchToken(pos);
 

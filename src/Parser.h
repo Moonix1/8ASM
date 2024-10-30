@@ -45,6 +45,11 @@ struct NotExpr {
 	std::tuple<TokenType, std::string> value;
 };
 
+struct SingleExpr {
+	TokenType type;
+	std::tuple<TokenType, std::string> value;
+};
+
 struct JumpExpr {
 	TokenType type;
 	std::tuple<TokenType, std::string> dest;

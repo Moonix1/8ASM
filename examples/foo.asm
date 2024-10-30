@@ -7,6 +7,7 @@ _start:
 
 	xor r3, r2, #3556
 	not r4, r3
+	dec r4
 
 	jz _start
 	hlt

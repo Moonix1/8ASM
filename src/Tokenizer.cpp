@@ -97,6 +97,12 @@ void Tokenizer::TokenizeAlnum(int &pos, std::string line) {
 	} else if (value == "shr" || value == "SHR") {
         m_Tokens.push_back(Token { .type = SHR, .value = value });
         return;
+	} else if (value == "inc" || value == "INC") {
+        m_Tokens.push_back(Token { .type = INC, .value = value });
+        return;
+	} else if (value == "dec" || value == "DEC") {
+        m_Tokens.push_back(Token { .type = DEC, .value = value });
+        return;
 	} else if (value == "jmp" || value == "JMP") {
 		m_Tokens.push_back(Token { .type = JUMP, .value = value });
         return;

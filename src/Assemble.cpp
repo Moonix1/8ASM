@@ -231,6 +231,18 @@ void Assemble::AssembleExprs(std::string outPath) {
 			program.push_back(NOT_R);
 			program.push_back(StringToRegister(std::get<1>(notExpr.dest)));
 			program.push_back(StringToRegister(std::get<1>(notExpr.value)));
+		} else if (expr.type() == typeid(SingleExpr)) {
+			SingleExpr singleExpr = std::any_cast<SingleExpr>(expr);
+			switch (singleExpr.type) {
+			case INC: {
+				program.push_back(INC_R);
+				program.push_back(StringToRegister(std::get<1>(singleExpr.value)));
+			} break;
+			case DEC: {
+				program.push_back(DEC_R);
+				program.push_back(StringToRegister(std::get<1>(singleExpr.value)));
+			} break;
+			}
 		} else if (expr.type() == typeid(JumpExpr)) {
 			JumpExpr jumpExpr = std::any_cast<JumpExpr>(expr);
 			switch (jumpExpr.type) {

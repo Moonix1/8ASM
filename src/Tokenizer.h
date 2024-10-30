@@ -31,6 +31,8 @@ enum TokenType {
 	NOT,
 	SHL,
 	SHR,
+	INC,
+	DEC,
 	JUMP,
 	JUMP_ZERO,
 	JUMP_NOT_ZERO,
