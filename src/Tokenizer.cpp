@@ -14,33 +14,6 @@ void Tokenizer::TokenizeFile(std::string filePath) {
     }
 }
 
-void Tokenizer::DumpTokens() {
-    std::unordered_map<TokenType, std::string> tokenTypeToString = {
-        { TokenType::IMMEDIATE, "immediate" },
-        { TokenType::REG, "reg" },
-		{ TokenType::ADDR, "addr" },
-		{ TokenType::LABEL, "label" },
-		{ TokenType::ORG, "org" },
-        { TokenType::MOV, "mov" },
-		{ TokenType::ADD, "add" },
-		{ TokenType::ADC, "adc" },
-		{ TokenType::SUB, "sub" },
-		{ TokenType::SBC, "sbc" },
-		{ TokenType::MUL, "mul" },
-		{ TokenType::DIV, "div" },
-		{ TokenType::JUMP, "jmp" },
-		{ TokenType::HALT, "hlt" },
-		{ TokenType::WORD, "word" },
-		{ TokenType::BYTE, "byte" },
-        { TokenType::COMMA, "comma" },
-        { TokenType::UNKNOWN, "unknown" },
-    };
-
-    for (Token &tok : m_Tokens) {
-        LOG_INFO("{0} -> {1}", tokenTypeToString[tok.type], tok.value);
-    }
-}
-
 void Tokenizer::TokenizeLine(std::string line) {
     line = StringManip::Trim(line);
 
@@ -105,6 +78,24 @@ void Tokenizer::TokenizeAlnum(int &pos, std::string line) {
         return;
 	} else if (value == "div" || value == "DIV") {
         m_Tokens.push_back(Token { .type = DIV, .value = value });
+        return;
+	} else if (value == "and" || value == "AND") {
+        m_Tokens.push_back(Token { .type = AND, .value = value });
+        return;
+	} else if (value == "or" || value == "OR") {
+        m_Tokens.push_back(Token { .type = OR, .value = value });
+        return;
+	} else if (value == "xor" || value == "XOR") {
+        m_Tokens.push_back(Token { .type = XOR, .value = value });
+        return;
+	} else if (value == "not" || value == "NOT") {
+        m_Tokens.push_back(Token { .type = NOT, .value = value });
+        return;
+	} else if (value == "shl" || value == "SHL") {
+        m_Tokens.push_back(Token { .type = SHL, .value = value });
+        return;
+	} else if (value == "shr" || value == "SHR") {
+        m_Tokens.push_back(Token { .type = SHR, .value = value });
         return;
 	} else if (value == "jmp" || value == "JMP") {
 		m_Tokens.push_back(Token { .type = JUMP, .value = value });

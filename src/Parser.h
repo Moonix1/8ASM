@@ -40,6 +40,11 @@ struct ArithmeticExpr {
     std::tuple<TokenType, std::string> value2;
 };
 
+struct NotExpr {
+	std::tuple<TokenType, std::string> dest;
+	std::tuple<TokenType, std::string> value;
+};
+
 struct JumpExpr {
 	TokenType type;
 	std::tuple<TokenType, std::string> dest;

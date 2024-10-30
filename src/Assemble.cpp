@@ -210,7 +210,27 @@ void Assemble::AssembleExprs(std::string outPath) {
 			case DIV: {
 				Arithmetic(program, arithmeticExpr, DIV_R, DIV_RI, DIV_IR, DIV_I);
 			} break;
+			case AND: {
+				Arithmetic(program, arithmeticExpr, AND_R, AND_RI, AND_IR, AND_I);
+			} break;
+			case OR: {
+				Arithmetic(program, arithmeticExpr, OR_R, OR_RI, OR_IR, OR_I);
+			} break;
+			case XOR: {
+				Arithmetic(program, arithmeticExpr, XOR_R, XOR_RI, XOR_IR, XOR_I);
+			} break;
+			case SHL: {
+				Arithmetic(program, arithmeticExpr, SHL_R, SHL_RI, SHL_IR, SHL_I);
+			} break;
+			case SHR: {
+				Arithmetic(program, arithmeticExpr, SHR_R, SHR_RI, SHR_IR, SHR_I);
+			} break;
 			}
+		} else if (expr.type() == typeid(NotExpr)) {
+			NotExpr notExpr = std::any_cast<NotExpr>(expr);
+			program.push_back(NOT_R);
+			program.push_back(StringToRegister(std::get<1>(notExpr.dest)));
+			program.push_back(StringToRegister(std::get<1>(notExpr.value)));
 		} else if (expr.type() == typeid(JumpExpr)) {
 			JumpExpr jumpExpr = std::any_cast<JumpExpr>(expr);
 			switch (jumpExpr.type) {

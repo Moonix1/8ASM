@@ -25,6 +25,12 @@ enum TokenType {
 	SBC,
 	MUL,
 	DIV,
+	AND,
+	OR,
+	XOR,
+	NOT,
+	SHL,
+	SHR,
 	JUMP,
 	JUMP_ZERO,
 	JUMP_NOT_ZERO,
@@ -53,8 +59,6 @@ struct Token {
 class Tokenizer {
 public:
     void TokenizeFile(std::string filePath);
-    
-    void DumpTokens();
 
     inline const std::vector<Token> &GetTokens() const { return m_Tokens; }
 private:

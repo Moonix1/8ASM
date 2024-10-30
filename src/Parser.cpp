@@ -65,7 +65,12 @@ void Parser::ParseExpr() {
 		case SUB:
 		case SBC:
 		case MUL:
-		case DIV: {
+		case DIV:
+		case AND:
+		case OR:
+		case XOR:
+		case SHL:
+		case SHR: {
 			Token dest = FetchToken(pos);
 			Token value1 = FetchTokenC(pos);
 			Token value2 = FetchTokenC(pos);
@@ -75,6 +80,14 @@ void Parser::ParseExpr() {
 				.dest = std::make_tuple(dest.type, dest.value),
 				.value1 = std::make_tuple(value1.type, value1.value),
 				.value2 = std::make_tuple(value2.type, value2.value),
+			});
+		} break;
+		case NOT: {
+			Token dest = FetchToken(pos);
+			Token value = FetchTokenC(pos);
+			m_Exprs.push_back(NotExpr {
+				.dest = std::make_tuple(dest.type, dest.value),
+				.value = std::make_tuple(value.type, value.value),
 			});
 		} break;
 		case JUMP: {

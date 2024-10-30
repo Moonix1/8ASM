@@ -53,7 +53,6 @@ int main(int argc, char **argv) {
 
         EASM::Tokenizer tokenizer;
         tokenizer.TokenizeFile(input);
-		tokenizer.DumpTokens();
         EASM::Parser parser(tokenizer.GetTokens());
         parser.ParseExpr();
         EASM::Assemble assemble(parser.GetExprs());
