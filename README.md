@@ -1,13 +1,13 @@
 # 8ASM
 
 > [!WARNING]
-> **V2 IS HIGHLY UNDER DEVELOPMENT, EXPECT INCOMPLETENESS
+> **8ASM IS HIGHLY UNDER DEVELOPMENT, EXPECT INCOMPLETENESS
 > AND SOME BUGS!**
 
 **An official R828v2 Assembler**
 
-## Info
-#### Official assembler: [R828](https://github.com/Moonix1/R828)
+## Resources
+#### Official emulator: [R828](https://github.com/Moonix1/R828)
 
 ---
 
