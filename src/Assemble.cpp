@@ -130,6 +130,14 @@ void Assemble::AssembleExprs(std::string outPath) {
 				LOG_ERROR("invalid value for org!");
 				exit(1);
 			}
+
+		} else if (expr.type() == typeid(LabelExpr)) {
+			LabelExpr labelExpr = std::any_cast<LabelExpr>(expr);
+
+			m_Labels.push_back(Label {
+				.name = labelExpr.name,
+				.addr = static_cast<uint16_t>(m_OriginAddr + program.size()),
+			});
 		} else if (expr.type() == typeid(MovExpr)) {
 			MovExpr movExpr = std::any_cast<MovExpr>(expr);
             switch (std::get<0>(movExpr.dest)) {
@@ -203,6 +211,40 @@ void Assemble::AssembleExprs(std::string outPath) {
 				Arithmetic(program, arithmeticExpr, DIV_R, DIV_RI, DIV_IR, DIV_I);
 			} break;
 			}
+		} else if (expr.type() == typeid(JumpExpr)) {
+			JumpExpr jumpExpr = std::any_cast<JumpExpr>(expr);
+			switch (jumpExpr.type) {
+			case JUMP: {
+				program.push_back(JMP);
+			} break;
+			case JUMP_ZERO: {
+				program.push_back(JZ);
+			} break;
+			case JUMP_NOT_ZERO: {
+				program.push_back(JNZ);
+			} break;
+			case JUMP_SIGN: {
+				program.push_back(JS);
+			} break;
+			case JUMP_NOT_SIGN: {
+				program.push_back(JNS);
+			} break;
+			case JUMP_CARRY: {
+				program.push_back(JC);
+			} break;
+			case JUMP_NOT_CARRY: {
+				program.push_back(JNC);
+			} break;
+			}
+			
+			m_DeferredOperands.push_back(DeferredOperand {
+				.name = std::get<1>(jumpExpr.dest),
+				.addr = static_cast<uint16_t>(program.size()),
+			});
+
+			// Fill up the empty spots
+			program.push_back(0);
+			program.push_back(0);
 		} else if (expr.type() == typeid(Halt)) {
 			program.push_back(HLT);
         } else {
@@ -211,16 +253,38 @@ void Assemble::AssembleExprs(std::string outPath) {
         }
     }
 
+	for (DeferredOperand &df : m_DeferredOperands) {
+		uint16_t addr = GetLabelAddr(df.name);
+		program[df.addr] = static_cast<uint8_t>(addr & 0xFF);
+		program[df.addr + 1] = static_cast<uint8_t>((addr >> 8) & 0xFF);
+    }
+
 	// Generate File
 	std::ofstream file(outPath, std::ios::binary);
 	if (!file) {
 		LOG_ERROR("unable to open file for write!");
-		exit(1);
+		return;
 	}
 
 	file.write(reinterpret_cast<const char*>(program.data()), program.size());
 
+	if (file.fail()) {
+        LOG_ERROR("failed to write to file due to stream error.");
+        return;
+    }
+
 	file.close();
+}
+
+uint16_t Assemble::GetLabelAddr(std::string name) {
+	for (const Label &label : m_Labels) {
+		if (label.name == name) {
+			return label.addr;
+		}
+	}
+
+	LOG_ERROR("could not find label! info: {0}", name);
+	exit(1);
 }
 
 }

@@ -40,6 +40,11 @@ struct ArithmeticExpr {
     std::tuple<TokenType, std::string> value2;
 };
 
+struct JumpExpr {
+	TokenType type;
+	std::tuple<TokenType, std::string> dest;
+};
+
 struct Halt {};
 
 class Parser {

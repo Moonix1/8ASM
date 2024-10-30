@@ -25,6 +25,13 @@ enum TokenType {
 	SBC,
 	MUL,
 	DIV,
+	JUMP,
+	JUMP_ZERO,
+	JUMP_NOT_ZERO,
+	JUMP_SIGN,
+	JUMP_NOT_SIGN,
+	JUMP_CARRY,
+	JUMP_NOT_CARRY,
 	HALT,
 
 	// Assembler Directives

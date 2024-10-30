@@ -19,8 +19,19 @@ void Tokenizer::DumpTokens() {
         { TokenType::IMMEDIATE, "immediate" },
         { TokenType::REG, "reg" },
 		{ TokenType::ADDR, "addr" },
+		{ TokenType::LABEL, "label" },
+		{ TokenType::ORG, "org" },
         { TokenType::MOV, "mov" },
+		{ TokenType::ADD, "add" },
+		{ TokenType::ADC, "adc" },
+		{ TokenType::SUB, "sub" },
+		{ TokenType::SBC, "sbc" },
+		{ TokenType::MUL, "mul" },
+		{ TokenType::DIV, "div" },
+		{ TokenType::JUMP, "jmp" },
 		{ TokenType::HALT, "hlt" },
+		{ TokenType::WORD, "word" },
+		{ TokenType::BYTE, "byte" },
         { TokenType::COMMA, "comma" },
         { TokenType::UNKNOWN, "unknown" },
     };
@@ -40,7 +51,7 @@ void Tokenizer::TokenizeLine(std::string line) {
 		line = line.substr(colonPos + 1);
 
 		m_Tokens.push_back(Token { .type = LABEL, .value = label });
-		
+
 		line = StringManip::Trim(line);
 	}
 
@@ -52,7 +63,7 @@ void Tokenizer::TokenizeLine(std::string line) {
             // Skip whitespaces
             if (isspace(current)) { continue; }
 
-            if (isalnum(current)) {
+            if (isalnum(current) || current == '_') {
                 TokenizeAlnum(pos, line);
                 continue;
             }
@@ -70,7 +81,7 @@ void Tokenizer::TokenizeLine(std::string line) {
 
 void Tokenizer::TokenizeAlnum(int &pos, std::string line) {
     int start = pos;
-    while (pos < line.size() && isalnum(line[pos])) { pos++; }
+    while (pos < line.size() && (isalnum(line[pos]) || line[pos] == '_')) { pos++; }
     std::string value = line.substr(start, pos - start);
 	pos--;
 
@@ -95,6 +106,26 @@ void Tokenizer::TokenizeAlnum(int &pos, std::string line) {
 	} else if (value == "div" || value == "DIV") {
         m_Tokens.push_back(Token { .type = DIV, .value = value });
         return;
+	} else if (value == "jmp" || value == "JMP") {
+		m_Tokens.push_back(Token { .type = JUMP, .value = value });
+        return;
+	} else if (value == "jz" || value == "JZ") {
+		m_Tokens.push_back(Token { .type = JUMP_ZERO, .value = value });
+        return;
+	} else if (value == "jnz" || value == "JNZ") {
+		m_Tokens.push_back(Token { .type = JUMP_NOT_ZERO, .value = value });
+        return;
+	} else if (value == "js" || value == "JS") {
+		m_Tokens.push_back(Token { .type = JUMP_SIGN, .value = value });
+        return;
+	} else if (value == "jns" || value == "JNS") {
+		m_Tokens.push_back(Token { .type = JUMP_NOT_SIGN, .value = value });
+        return;
+	} else if (value == "jc" || value == "JC") {
+		m_Tokens.push_back(Token { .type = JUMP_CARRY, .value = value });
+        return;
+	} else if (value == "jnc" || value == "JNC") {
+		m_Tokens.push_back(Token { .type = JUMP_NOT_CARRY, .value = value });
     } else if (value == "hlt" || value == "HLT") {
         m_Tokens.push_back(Token { .type = HALT, .value = value });
         return;

@@ -15,7 +15,7 @@ void Parser::ParseExpr() {
 			m_Exprs.push_back(OrgExpr { .value = std::make_tuple(addr.type, addr.value) });
 		} break;
 		case LABEL: {
-
+			m_Exprs.push_back(LabelExpr { .name = tok.value });
 		} break;
         case MOV: {
 			Token destOrType = FetchToken(pos);
@@ -75,6 +75,62 @@ void Parser::ParseExpr() {
 				.dest = std::make_tuple(dest.type, dest.value),
 				.value1 = std::make_tuple(value1.type, value1.value),
 				.value2 = std::make_tuple(value2.type, value2.value),
+			});
+		} break;
+		case JUMP: {
+            Token dest = FetchToken(pos);
+
+			m_Exprs.push_back(JumpExpr {
+				.type = JUMP,
+				.dest = std::make_tuple(dest.type, dest.value),
+			});
+		} break;
+		case JUMP_ZERO: {
+            Token dest = FetchToken(pos);
+
+			m_Exprs.push_back(JumpExpr {
+				.type = JUMP_ZERO,
+				.dest = std::make_tuple(dest.type, dest.value),
+			});
+		} break;
+		case JUMP_NOT_ZERO: {
+            Token dest = FetchToken(pos);
+
+			m_Exprs.push_back(JumpExpr {
+				.type = JUMP_NOT_ZERO,
+				.dest = std::make_tuple(dest.type, dest.value),
+			});
+		} break;
+		case JUMP_SIGN: {
+            Token dest = FetchToken(pos);
+
+			m_Exprs.push_back(JumpExpr {
+				.type = JUMP_SIGN,
+				.dest = std::make_tuple(dest.type, dest.value),
+			});
+		} break;
+		case JUMP_NOT_SIGN: {
+            Token dest = FetchToken(pos);
+
+			m_Exprs.push_back(JumpExpr {
+				.type = JUMP_NOT_SIGN,
+				.dest = std::make_tuple(dest.type, dest.value),
+			});
+		} break;
+		case JUMP_CARRY: {
+            Token dest = FetchToken(pos);
+
+			m_Exprs.push_back(JumpExpr {
+				.type = JUMP_ZERO,
+				.dest = std::make_tuple(dest.type, dest.value),
+			});
+		} break;
+		case JUMP_NOT_CARRY: {
+            Token dest = FetchToken(pos);
+
+			m_Exprs.push_back(JumpExpr {
+				.type = JUMP_NOT_ZERO,
+				.dest = std::make_tuple(dest.type, dest.value),
 			});
 		} break;
 		case HALT: {
